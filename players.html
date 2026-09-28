@@ -113,6 +113,19 @@
   a.play:hover { filter: brightness(1.1); }
   a.box.guide { display: block; text-decoration: none; color: var(--text); }
   a.box.guide:hover { border-color: var(--accent); }
+
+  /* Website only (added by Build-Books.ps1 to the GitHub Pages copies): the bar that leads back home and between guides. */
+  .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; margin-inline: -16px; padding: 10px 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+    background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  .site-nav .brand { font: 700 20px/1 var(--display); letter-spacing: .04em; color: var(--text-strong); text-decoration: none; }
+  .site-nav .brand .tag { font-size: 13px; margin-right: 4px; }
+  .site-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .site-links a { font: 600 14px/1 var(--body); color: var(--text); text-decoration: none; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+  .site-links a:hover { border-color: var(--accent); color: var(--text-strong); }
+  .site-links a[aria-current="page"] { border-color: var(--accent); color: var(--text-strong); background: var(--surface-2); }
+  .site-links a.join { background: var(--lime); border-color: var(--lime); color: var(--bg); }
+  .site-links a.join:hover { filter: brightness(1.1); color: var(--bg); }
   details.faq { border: 1px solid var(--line); border-radius: 6px; background: var(--surface); margin: 0 0 8px; }
   details.faq summary { cursor: pointer; padding: 11px 14px; font-weight: 600; color: var(--text-strong); }
   details.faq > div { padding: 0 14px 12px; }
@@ -122,6 +135,14 @@
 </style>
 </head>
 <body>
+<nav class="site-nav" aria-label="Site">
+  <a class="brand" href="index.html"><span class="tag">[DX]</span> DREXUN ARENA</a>
+  <div class="site-links">
+    <a href="players.html" aria-current="page">Player Guide</a>
+    <a href="vip.html">VIP Guide</a>
+    <a class="join" href="steam://connect/drexun.ggwp.cc:25401">Join</a>
+  </div>
+</nav>
 <div class="wrap">
   <header class="top">
     <div class="tag">[DX] DREXUN ARENA · 1V1 ARENAS</div>
