@@ -1,0 +1,143 @@
+/* The live parts of drexun.com (status, leaderboards, player pages). The base look (colors, fonts, boxes, tables)
+   comes from docs/books/src/_template.html, which every page also carries. Source: web/site.css. */
+
+.live-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; margin: 8px 0 14px; }
+@media (max-width: 720px) { .live-grid { grid-template-columns: 1fr; } }
+
+.status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 10px; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); margin-right: 6px; vertical-align: 1px; }
+.dot.on { background: var(--green); box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 22%, transparent); }
+.dot.off { background: var(--red); }
+.state { font: 700 20px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--text-strong); }
+.big-num { font: 700 34px/1 var(--display); color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.big-num small { font-size: 18px; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.chips li { font: 600 13px/1 var(--body); color: var(--gold); background: var(--surface-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; max-width: 100%; overflow-wrap: anywhere; }
+.live a.play { font-size: 18px; padding: 11px 20px; margin-top: 12px; }
+
+form.search { display: flex; gap: 6px; margin: 6px 0 4px; }
+form.search input { flex: 1; min-width: 0; font: 16px/1.2 var(--body); color: var(--text-strong); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; }
+form.search input:focus { outline: 2px solid var(--lime); outline-offset: 1px; border-color: transparent; }
+form.search button, .btn { font: 700 15px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--bg); background: var(--lime); border: 0; border-radius: 4px; padding: 10px 16px; cursor: pointer; text-decoration: none; display: inline-block; }
+form.search button:hover, .btn:hover { filter: brightness(1.1); }
+.btn.ghost { background: var(--surface-2); color: var(--text-strong); border: 1px solid var(--line); }
+
+ol.mini { list-style: none; padding: 0; margin: 4px 0 10px; display: grid; gap: 2px; }
+ol.mini li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); max-width: none; }
+ol.mini li:first-child { border-top: 0; }
+ol.mini .pos { font: 700 16px/1 var(--display); color: var(--muted); }
+ol.mini .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ol.mini .val { font: 500 13px/1 var(--mono); color: var(--text); font-variant-numeric: tabular-nums; }
+
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding-block: 18px 6px; }
+.toolbar form.search { flex: 0 1 340px; margin: 0; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs a { font: 600 14px/1 var(--body); color: var(--text); text-decoration: none; padding: 9px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.tabs a[aria-current="page"] { border-color: var(--accent); color: var(--text-strong); background: var(--surface-2); }
+
+.board td:first-child { width: 1%; min-width: 0; white-space: nowrap; }
+.board td.num, .board th.num { text-align: right; white-space: nowrap; }
+.board td.player { width: auto; min-width: 140px; }
+.board tr.me td { background: color-mix(in srgb, var(--lime) 8%, transparent); }
+.board tr.vip td:first-child { box-shadow: inset 3px 0 0 var(--blue); }
+a.pname { color: var(--gold); text-decoration: none; font-weight: 600; overflow-wrap: anywhere; }
+a.pname:hover { text-decoration: underline; }
+.title-tag { display: inline-block; font: 600 12px/1 var(--mono); letter-spacing: .03em; margin-left: 6px; }
+@media (max-width: 560px) {
+  .board .opt { display: none; }
+  .board th, .board td { padding: 9px 8px; font-size: 14px; }
+  .board td.player { min-width: 0; }
+  .board th { letter-spacing: .02em; }
+}
+
+.pager { display: flex; justify-content: center; align-items: center; gap: 10px; padding-top: 10px; font: 500 14px/1 var(--mono); color: var(--muted); }
+.pager a { color: var(--text-strong); text-decoration: none; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 10px; margin: 18px 0 14px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+.tile .k { font: 600 12px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tile .v { font: 700 30px/1.15 var(--display); color: var(--text-strong); font-variant-numeric: tabular-nums; margin-top: 4px; overflow-wrap: anywhere; }
+.tile .v small { font: 600 15px/1 var(--body); color: var(--muted); letter-spacing: 0; }
+.tile .s { font-size: 14px; color: var(--muted); margin-top: 2px; }
+.bar { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.bar span { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+
+.season-block { margin: 0 0 18px; }
+.season-block h3 { margin-top: 18px; }
+.podium { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.podium .box { padding: 12px 14px; }
+.podium h4 { text-transform: none; letter-spacing: .01em; margin: 6px 0 4px; overflow-wrap: anywhere; }
+.podium .place { font: 700 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.podium .first { border-color: var(--gold); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 40%, transparent); }
+.podium .first .place { color: var(--gold); }
+
+/* Steam avatars: small next to names, big on the player card. */
+img.av, .av.letter { flex: none; border-radius: 4px; vertical-align: middle; margin-right: 10px; background: var(--surface-2); object-fit: cover; }
+.av.letter { display: inline-grid; place-items: center; font: 700 13px/1 var(--display); color: var(--muted); border: 1px solid var(--line); box-sizing: border-box; font-style: normal; }
+.pname { display: inline-flex; align-items: center; min-width: 0; vertical-align: middle; }
+.board td { vertical-align: middle; }
+.pname > span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.profile { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
+.profile h1 { overflow-wrap: anywhere; }
+.profile .lede { margin-top: 6px; }
+.av.big { width: 112px; height: 112px; margin: 0; border-radius: 8px; border: 1px solid var(--line); }
+.av.blank { display: grid; place-items: center; font: 700 52px/1 var(--display); color: var(--accent); background: var(--surface); }
+.profile-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+.profile-links .btn { font-size: 13px; padding: 8px 12px; }
+@media (max-width: 480px) { .profile { grid-template-columns: 1fr; } .av.big { width: 88px; height: 88px; } }
+
+/* Hit spread figure, top weapons, top maps (player page). */
+.detail { margin-top: 18px; }
+.detail .box h4 { margin-bottom: 12px; }
+svg.figure { flex: none; }
+.fig-part { fill: var(--surface-2); stroke: var(--line); stroke-width: 1; }
+.fig-part.on { fill: var(--lime); stroke: none; }
+.spread { display: flex; align-items: center; gap: 22px; margin-bottom: 8px; }
+.spread-row { display: grid; grid-template-columns: 48px 56px auto; align-items: baseline; gap: 8px; padding: 4px 0; }
+.spread-row .k { font: 600 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.spread-row b { font: 700 22px/1 var(--display); color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.spread-row .s { font-size: 13px; color: var(--muted); }
+.weapons td.big { font: 700 20px/1 var(--display); color: var(--text-strong); }
+.weapons .wname { color: var(--text-strong); }
+.mini-spread { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+ul.maps { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 10px; }
+ul.maps li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; max-width: none; }
+ul.maps .map { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ul.maps .rate { text-align: right; font-variant-numeric: tabular-nums; }
+ul.maps .rate b { font: 700 18px/1 var(--display); color: var(--text-strong); margin-right: 8px; }
+ul.maps .rate b.good { color: var(--gold); }
+ul.maps .rate small { color: var(--muted); font-size: 12px; }
+ul.maps .bar { grid-column: 1 / -1; margin-top: 2px; height: 6px; }
+
+@media (max-width: 640px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Steam login in the nav, and the signed-in player's own rows. */
+.account { display: inline-flex; align-items: center; gap: 6px; }
+.account .mine { display: inline-flex; align-items: center; gap: 6px; }
+.account .mine img.av { margin: 0; border-radius: 3px; }
+.account form.signout { margin: 0; }
+.account form.signout button { font: 600 13px/1 var(--body); color: var(--muted); background: none; border: 0; padding: 8px 4px; cursor: pointer; }
+.account form.signout button:hover { color: var(--text-strong); text-decoration: underline; }
+.board tr.me td, ol.mini li.me { background: color-mix(in srgb, var(--lime) 9%, transparent); }
+.podium .box.me { border-color: var(--lime); }
+
+/* Rating graph (player page). */
+.rating-box { margin-top: 18px; }
+.rating-box h4 { margin-bottom: 8px; }
+.graph-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-bottom: 6px; font-size: 14px; color: var(--muted); }
+.graph-head b { font: 700 22px/1 var(--display); color: var(--text-strong); margin-left: 4px; }
+.graph-head .note { margin: 0 0 0 auto; }
+svg.graph { display: block; width: 100%; height: 150px; }
+.graph-line { fill: none; stroke: var(--lime); stroke-width: 2.5; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.graph-fill { fill: color-mix(in srgb, var(--lime) 12%, transparent); }
+.graph-peak { fill: var(--gold); }
+ul.maps .mode-name { font-weight: 600; color: var(--text-strong); }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.empty { padding: 18px; text-align: center; color: var(--muted); }
+.error { border-left: 3px solid var(--red); }
+.updated { font: 500 13px/1.4 var(--mono); color: var(--muted); margin-top: 10px; }
+
+/* Title colors: the same order as the chat colors in game (grey, green, blue, purple, yellow, gold, red). */
+.t-initiate { color: #9aa6b4; } .t-challenger { color: var(--green); } .t-duelist { color: var(--blue); }
+.t-gladiator { color: var(--purple); } .t-champion { color: #f3e36a; } .t-legend { color: var(--gold); } .t-mythic { color: var(--red); }

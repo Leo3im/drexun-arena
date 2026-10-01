@@ -1,0 +1,24 @@
+// The Cloudflare worker that is drexun.com (pages + API + the D1 stats copy). Source: web/wrangler.jsonc, copied to
+// _site/wrangler.jsonc by tools/Build-Books.ps1; deployed with dx site deploy. The ingest key is a worker SECRET
+// (INGEST_KEY, set with dx site key), never in this file. The database id below is not a secret.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "drexun-site",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-01",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "drexun.com", "custom_domain": true },
+    { "pattern": "www.drexun.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page"
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "drexun-stats", "database_id": "90e6be62-50ac-4891-ab0c-a717e0088691" }
+  ],
+  "observability": { "enabled": true }
+}
