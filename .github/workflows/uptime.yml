@@ -1,0 +1,55 @@
+# Drexun Arena uptime alert. Source: tools\uptime\ in the project; tools\Build-Books.ps1 copies it into the website
+# repository, where GitHub runs it. Posts to Discord (secret UPTIME_WEBHOOK, set by the owner in the repository
+# settings) when the game server stops answering, and when it is back.
+name: Server uptime alert
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # GitHub's shortest interval; runs can start a few minutes late
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write   # only to keep this schedule switched on (see the last step)
+
+concurrency:
+  group: uptime
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/uptime
+
+      # The previous result (up/down, how many checks failed), so an alert is sent once, not every 5 minutes.
+      - uses: actions/cache/restore@v4
+        with:
+          path: .uptime-state.json
+          key: uptime-state-${{ github.run_id }}
+          restore-keys: uptime-state-
+
+      - name: Ask the server
+        shell: pwsh
+        run: ./.github/uptime/Check-Uptime.ps1
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.UPTIME_WEBHOOK }}
+          SERVER: drexun.ggwp.cc:25401
+
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .uptime-state.json
+          key: uptime-state-${{ github.run_id }}
+
+      # GitHub switches off scheduled jobs in a repository that has had no new commits for 60 days. Re-enabling the
+      # workflow through the API keeps it on without committing anything.
+      - name: Keep the schedule switched on
+        if: github.event_name == 'schedule'
+        continue-on-error: true
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/uptime.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}
