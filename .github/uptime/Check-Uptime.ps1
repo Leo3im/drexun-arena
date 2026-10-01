@@ -76,6 +76,11 @@ for ($attempt = 1; $attempt -le 3 -and -not $info; $attempt++) {
 }
 
 $now = (Get-Date).ToUniversalTime()
+# The "test" tick box on GitHub's Run workflow button: proves the webhook works without waiting for an outage.
+if ($env:TEST_MESSAGE -eq 'true') {
+    $status = if ($info) { "the server answers right now ($($info.Map), $($info.Players - $info.Bots) player(s))" } else { 'the server does NOT answer right now' }
+    Send-Discord 'Uptime alert test' "The uptime alert can post here. Checked just now: $status." 0x3498DB
+}
 if ($info) {
     $people = $info.Players - $info.Bots
     Write-Host "  UP: $($info.Map), $people player(s) of $($info.Max)"

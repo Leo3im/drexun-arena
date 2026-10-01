@@ -6,7 +6,12 @@ name: Server uptime alert
 on:
   schedule:
     - cron: "*/5 * * * *"   # GitHub's shortest interval; runs can start a few minutes late
-  workflow_dispatch:
+  workflow_dispatch:   # the Run workflow button on GitHub's Actions page
+    inputs:
+      test:
+        description: Send a test message to Discord (checks the webhook secret)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -38,6 +43,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.UPTIME_WEBHOOK }}
           SERVER: drexun.ggwp.cc:25401
+          TEST_MESSAGE: ${{ inputs.test }}
 
       - uses: actions/cache/save@v4
         if: always()
