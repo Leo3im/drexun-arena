@@ -13,7 +13,9 @@
 .big-num small { font-size: 18px; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
 .chips li { font: 600 13px/1 var(--body); color: var(--gold); background: var(--surface-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; max-width: 100%; overflow-wrap: anywhere; }
-.live a.play { font-size: 18px; padding: 11px 20px; margin-top: 12px; }
+.live a.play { font-size: 18px; padding: 11px 20px; margin: 14px 0 16px; }
+.live a.play + .note { margin-top: 0; }
+.live .updated { margin-top: 6px; }
 
 form.search { display: flex; gap: 6px; margin: 6px 0 4px; }
 form.search input { flex: 1; min-width: 0; font: 16px/1.2 var(--body); color: var(--text-strong); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; }
@@ -27,6 +29,9 @@ ol.mini li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap
 ol.mini li:first-child { border-top: 0; }
 ol.mini .pos { font: 700 16px/1 var(--display); color: var(--muted); }
 ol.mini .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ol.mini li.wide, ol.mini li.empty { display: block; color: var(--muted); padding: 2px 0 8px; }
+ol.mini li.wide b { display: block; color: var(--text-strong); margin-bottom: 2px; }
+.box.placing ol.mini { margin: 0; }
 ol.mini .val { font: 500 13px/1 var(--mono); color: var(--text); font-variant-numeric: tabular-nums; }
 
 .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding-block: 18px 6px; }
@@ -111,13 +116,24 @@ ul.maps .bar { grid-column: 1 / -1; margin-top: 2px; height: 6px; }
 
 @media (max-width: 640px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* Steam login in the nav, and the signed-in player's own rows. */
-.account { display: inline-flex; align-items: center; gap: 6px; }
-.account .mine { display: inline-flex; align-items: center; gap: 6px; }
-.account .mine img.av { margin: 0; border-radius: 3px; }
-.account form.signout { margin: 0; }
-.account form.signout button { font: 600 13px/1 var(--body); color: var(--muted); background: none; border: 0; padding: 8px 4px; cursor: pointer; }
-.account form.signout button:hover { color: var(--text-strong); text-decoration: underline; }
+/* Steam login in the nav: "Sign in with Steam", or the avatar + name opening a small menu (My stats, Sign out). */
+.account { display: inline-flex; align-items: center; }
+.account a.signin { font: 600 14px/1 var(--body); color: var(--text); text-decoration: none; padding: 9px 12px; border: 1px solid var(--line); border-radius: 4px; }
+.account a.signin:hover { border-color: var(--lime); color: var(--text-strong); }
+details.me-menu { position: relative; }
+details.me-menu > summary { list-style: none; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 5px 8px 5px 5px; border-radius: 4px;
+  font: 600 14px/1 var(--body); color: var(--text-strong); max-width: 200px; }
+details.me-menu > summary::-webkit-details-marker { display: none; }
+details.me-menu > summary:hover, details.me-menu[open] > summary { background: var(--surface-2); }
+details.me-menu > summary img.av { margin: 0; width: 26px; height: 26px; border-radius: 4px; }
+details.me-menu > summary .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+details.me-menu > summary::after { content: ""; border: 4px solid transparent; border-top-color: var(--muted); margin-top: 4px; }
+details.me-menu .menu { position: absolute; right: 0; top: calc(100% + 6px); min-width: 170px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; padding: 6px; display: grid; gap: 2px; box-shadow: 0 10px 24px rgba(0, 0, 0, .45); z-index: 20; }
+details.me-menu .menu a, details.me-menu .menu button { display: block; width: 100%; text-align: left; font: 600 14px/1 var(--body); color: var(--text);
+  text-decoration: none; padding: 10px 10px; border: 0; border-radius: 4px; background: none; cursor: pointer; }
+details.me-menu .menu a:hover, details.me-menu .menu button:hover { background: var(--surface-2); color: var(--text-strong); }
+details.me-menu .menu form { margin: 0; }
 .board tr.me td, ol.mini li.me { background: color-mix(in srgb, var(--lime) 9%, transparent); }
 .podium .box.me { border-color: var(--lime); }
 
@@ -141,3 +157,141 @@ ul.maps .mode-name { font-weight: 600; color: var(--text-strong); }
 /* Title colors: the same order as the chat colors in game (grey, green, blue, purple, yellow, gold, red). */
 .t-initiate { color: #9aa6b4; } .t-challenger { color: var(--green); } .t-duelist { color: var(--blue); }
 .t-gladiator { color: var(--purple); } .t-champion { color: #f3e36a; } .t-legend { color: var(--gold); } .t-mythic { color: var(--red); }
+
+/* The footer on every page: brand, Discord button, links, copyright. */
+footer.site-footer { margin-top: 48px; padding: 28px 0 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px 40px; }
+.footer-brand { display: grid; gap: 10px; justify-items: start; max-width: 360px; }
+.footer-brand .brand { font: 700 20px/1 var(--display); letter-spacing: .04em; color: var(--text-strong); text-decoration: none; }
+.footer-brand .brand .tag { font-size: 13px; margin-right: 4px; }
+.footer-brand p { margin: 0; }
+a.discord-btn { display: inline-flex; align-items: center; gap: 8px; font: 700 14px/1 var(--body); color: #fff; background: #5865f2; text-decoration: none;
+  padding: 10px 14px; border-radius: 4px; }
+a.discord-btn:hover { background: #4752c4; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 20px 48px; }
+.footer-links div { display: grid; gap: 8px; align-content: start; }
+.footer-links h5 { margin: 0 0 2px; font: 600 12px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-strong); }
+.footer-links a { color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--text-strong); }
+.footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; margin-top: 26px; padding: 16px 0 6px; border-top: 1px solid var(--line); font-size: 13px; }
+.footer-brand code.nowrap { white-space: nowrap; overflow-wrap: normal; }
+/* The footer brings its own line: the last section above it gets none, or the two lines sit right on top of each other. */
+.wrap > section.sec:last-of-type { border-bottom: 0; }
+/* The menu button (three lines) only exists on phones. */
+.menu-btn { display: none; }
+
+/* Phones (owner, 2026-10-01: "the header is a bit weird" ... "3 lines on the top left and you can open a menu"): ONE slim
+   row - menu button, logo, then Sign in and Join (short texts). The page links open as a list under it from the button.
+   Signed in, only the avatar shows (its menu has the rest). */
+@media (max-width: 640px) {
+  .site-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0 10px; padding-block: 8px; }
+  .nav-left { display: contents; }
+  .menu-btn { display: grid; place-items: center; grid-column: 1; grid-row: 1; width: 38px; height: 38px; margin-left: -6px; padding: 0;
+    border: 0; border-radius: 4px; background: none; color: var(--text-strong); cursor: pointer; }
+  .menu-btn:hover, .site-nav.open .menu-btn { background: var(--surface-2); }
+  .site-nav .brand { grid-column: 2; grid-row: 1; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .site-nav .brand .tag { display: none; }
+  .nav-right { grid-column: 3; grid-row: 1; gap: 8px; }
+  .site-links { display: none; }
+  .site-nav.open .site-links { display: grid; grid-column: 1 / -1; grid-row: 2; gap: 0; margin-top: 8px; border-top: 1px solid var(--line); }
+  .site-nav.open .site-links a { font-size: 16px; padding: 14px 4px; border-bottom: 1px solid var(--line); }
+  .site-nav.open .site-links a[aria-current="page"] { color: var(--lime); border-bottom-color: var(--line); }
+  .site-nav .long { display: none; }
+  .account a.signin { padding: 7px 10px; font-size: 13px; }
+  .site-nav a.join { padding: 8px 12px; font-size: 13px; }
+  details.me-menu > summary .who { display: none; }
+  details.me-menu > summary { padding: 3px; }
+}
+/* Back to the top: a round button at the bottom right, shown once the page is scrolled down (owner, 2026-10-01). */
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 30; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line);
+  background: var(--surface-2); color: var(--text-strong); display: grid; place-items: center; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .45); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .2s, transform .2s; }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { border-color: var(--lime); color: var(--lime); }
+@media (prefers-reduced-motion: reduce) { .to-top { transition: none; } }
+
+/* The small Discord logo in the line under the page title. */
+.meta { align-items: center; }
+a.meta-discord { display: inline-flex; color: var(--muted); line-height: 0; }
+a.meta-discord:hover { color: #5865f2; }
+
+/* The short Guide and VIP pages (owner, 2026-10-01: "simple and easy to understand"): big numbered sections, short cards. */
+.guide-page section.sec { padding-block: 30px 10px; }
+.guide-page h2 { font-size: 28px; margin-bottom: 14px; }
+.guide-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 12px; margin: 4px 0 14px; }
+.guide-cards.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.guide-cards .box { padding: 16px 18px; }
+.guide-cards .box h4 { margin-bottom: 8px; font-size: 18px; }
+.guide-cards .box p { color: var(--text); }
+.guide-cards .box.highlight { border-color: var(--gold); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent); }
+.guide-cards .box.highlight h4 { color: var(--gold); }
+.cmd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 8px; margin: 4px 0 12px; }
+.cmd-grid div { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+.cmd-grid code { font-size: 15px; }
+.cmd-grid span { font-size: 14px; color: var(--muted); }
+.title-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.title-chips span { font: 700 15px/1 var(--display); letter-spacing: .03em; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; }
+.title-chips small { font: 500 12px/1 var(--mono); color: var(--muted); margin-left: 4px; }
+ul.rules-short { list-style: none; padding: 0; display: grid; gap: 8px; }
+ul.rules-short li { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--lime); border-radius: 6px; padding: 10px 14px; max-width: none; }
+.guide-page .steps li { font-size: 17px; }
+p.more { margin: 26px 0 0; font-size: 16px; }
+
+/* ---- Motion and depth (owner, 2026-10-01: "modern feel like animation ... make it beautiful") -------------------------
+   Subtle and quick: a glow and a fading grid behind the top of every page, content that rises in on load and when it
+   scrolls into view, cards that lift on hover, numbers that count up, the rating line that draws itself. Everything
+   that moves is switched off for people who ask their system for reduced motion. No libraries. */
+body { position: relative; isolation: isolate; }   /* the glow layer below stays in front of the body background */
+body::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 760px; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(700px 360px at 12% -60px, color-mix(in srgb, var(--lime) 16%, transparent), transparent 70%),
+    radial-gradient(600px 320px at 92% -40px, color-mix(in srgb, var(--blue) 14%, transparent), transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px) 0 0 / 44px 44px;
+  -webkit-mask-image: linear-gradient(#000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
+          mask-image: linear-gradient(#000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%); }
+h1 .who { text-shadow: 0 0 36px color-mix(in srgb, var(--accent) 45%, transparent); }
+
+.box, .tile, .cmd-grid div, ul.rules-short li, .chips li { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.box:not(.empty):not(.error):hover, .tile:hover, .cmd-grid div:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--lime) 45%, var(--line));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35), 0 0 0 1px color-mix(in srgb, var(--lime) 12%, transparent); }
+a.play, .btn, .site-nav a.join, form.search button, a.discord-btn { transition: transform .15s ease, box-shadow .2s ease, filter .2s ease, background-color .2s ease; }
+a.play:hover, .btn:not(.ghost):hover, .site-nav a.join:hover, form.search button:hover { transform: translateY(-1px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--lime) 30%, transparent); }
+a.discord-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(88, 101, 242, .35); }
+.board tbody tr { transition: background-color .15s ease; }
+.board tbody tr:hover td { background: color-mix(in srgb, var(--surface-2) 70%, transparent); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes dx-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes dx-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes dx-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--green) 55%, transparent); }
+    70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  @keyframes dx-draw { to { stroke-dashoffset: 0; } }
+
+  /* The page head rises in on load, one line after the other. */
+  header.top > * { animation: dx-rise .7s cubic-bezier(.2, .7, .2, 1) both; }
+  header.top > :nth-child(2) { animation-delay: .06s; }
+  header.top > :nth-child(3) { animation-delay: .12s; }
+  header.top > :nth-child(4) { animation-delay: .18s; }
+
+  /* Sections and cards rise in when they scroll into view (site.js adds .in; only with JavaScript, so nothing can
+     stay hidden without it). */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  /* Content that arrives from the API (tiles, rows, lists) rises in as it appears, one after the other. */
+  .tiles .tile, .podium .box, ol.mini li, ul.maps li { animation: dx-rise .5s cubic-bezier(.2, .7, .2, 1) both; }
+  .board tbody tr { animation: dx-fade .45s ease both; animation-delay: calc(var(--i, 0) * 28ms); }
+  .tiles .tile:nth-child(2), .podium .box:nth-child(2), ol.mini li:nth-child(2), ul.maps li:nth-child(2) { animation-delay: .05s; }
+  .tiles .tile:nth-child(3), .podium .box:nth-child(3), ol.mini li:nth-child(3), ul.maps li:nth-child(3) { animation-delay: .1s; }
+  .tiles .tile:nth-child(4), .podium .box:nth-child(4), ol.mini li:nth-child(4), ul.maps li:nth-child(4) { animation-delay: .15s; }
+  .tiles .tile:nth-child(5), .podium .box:nth-child(5), ol.mini li:nth-child(5), ul.maps li:nth-child(5) { animation-delay: .2s; }
+  .tiles .tile:nth-child(6), ol.mini li:nth-child(6) { animation-delay: .25s; }
+
+  .dot.on { animation: dx-pulse 2.2s ease-out infinite; }
+  .graph-line { stroke-dasharray: 3000; stroke-dashoffset: 3000; animation: dx-draw 1.6s cubic-bezier(.4, 0, .2, 1) .2s forwards; }
+  .graph-fill { animation: dx-fade 1s ease .9s both; }
+  .bar span { transition: width 1s cubic-bezier(.2, .7, .2, 1); }
+  .fig-part.on { transition: opacity .8s ease; }
+}

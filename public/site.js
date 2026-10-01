@@ -113,7 +113,7 @@
       const data = await get(`/api/leaderboard?type=${type}`);
       const rows = data.rows.slice(0, 5);
       if (rows.length === 0) {
-        fill(target, el('li', { class: 'empty', text: type === 'rating' ? `Nobody has finished the ${data.placementRounds} placement rounds this season yet.` : 'Nobody has played yet.' }));
+        fill(target, type === 'rating' ? placingRows(data) : el('li', { class: 'empty', text: 'Nobody has played yet.' }));
         return;
       }
       fill(target, rows.map((p) => el('li', {},
@@ -121,6 +121,21 @@
         el('span', { class: 'who' }, nameLink(p, 22)),
         el('span', { class: 'val', text: type === 'rating' ? `${p.rating} rating` : `Lv ${p.level}` }))));
     } catch (error) { fill(target, el('li', { class: 'empty', text: error.message })); }
+  }
+
+  // An empty rating list (a season just started): who is closest to their placement rounds, or an invitation to be first.
+  function placingRows(data) {
+    const placing = data.placing || [];
+    if (placing.length === 0) {
+      return [el('li', { class: 'wide' }, el('b', { text: 'A new season has started.' }), `Play ${data.placementRounds} ranked rounds to be the first on the list.`)];
+    }
+    return [
+      el('li', { class: 'wide' }, el('b', { text: 'A new season has started.' }), `Players join this list after ${data.placementRounds} ranked rounds. Closest so far:`),
+      ...placing.map((p) => el('li', {},
+        el('span', { class: 'pos', text: '' }),
+        el('span', { class: 'who' }, nameLink(p, 22)),
+        el('span', { class: 'val', text: `${p.rankedRounds}/${data.placementRounds} rounds` }))),
+    ];
   }
 
   // ------------------------------------------------------------------------------------------ leaderboard + search
@@ -172,13 +187,13 @@
     try {
       const data = await get(`/api/leaderboard?type=${type}&page=${page}`);
       if (data.rows.length === 0) {
-        fill(board, el('p', { class: 'box empty', text: type === 'rating' ? `Nobody has finished the ${data.placementRounds} placement rounds this season yet. Be the first!` : 'Nobody has played yet.' }));
+        fill(board, type === 'rating' ? el('div', { class: 'box placing' }, el('ol', { class: 'mini' }, placingRows(data))) : el('p', { class: 'box empty', text: 'Nobody has played yet.' }));
       } else {
         fill(board, boardTable(data.rows, type, (page - 1) * data.perPage));
       }
       const pages = Math.max(1, Math.ceil(data.total / data.perPage));
       const link = (n, label) => el('a', { href: `/leaderboard?type=${type}&page=${n}`, text: label });
-      fill(pager, page > 1 ? link(page - 1, '← Previous') : null, el('span', { text: `Page ${page} of ${pages} · ${number(data.total)} players` }), page < pages ? link(page + 1, 'Next →') : null);
+      if (data.total === 0) fill(pager); else fill(pager, page > 1 ? link(page - 1, '← Previous') : null, el('span', { text: `Page ${page} of ${pages} · ${number(data.total)} players` }), page < pages ? link(page + 1, 'Next →') : null);
       $('board-note').textContent = type === 'level'
         ? 'Levels never reset: this is everyone who has played, by total XP.'
         : `Rating starts at 1000 every month. A player shows up here after ${data.placementRounds} ranked rounds this season. The top 5 at the season end win VIP (blue line).`;
@@ -334,8 +349,7 @@
               p.ratingPosition && p.ratingPosition <= VIP_PLACES ? ` · #${p.ratingPosition} this season` : ''),
             sameName ? null : el('p', { class: 'note' }, 'On Steam: ', el('span', { text: p.steamName })),
             el('p', { class: 'profile-links' },
-              el('a', { class: 'btn ghost', href: `https://steamcommunity.com/profiles/${p.steamId}`, rel: 'noopener noreferrer', target: '_blank', text: 'Steam profile' }),
-              el('a', { class: 'btn ghost', href: `steam://friends/add/${p.steamId}`, text: 'Add friend' })))),
+              el('a', { class: 'btn ghost', href: `https://steamcommunity.com/profiles/${p.steamId}`, rel: 'noopener noreferrer', target: '_blank', text: 'Steam profile' })))),
         el('div', { class: 'meta' },
           el('span', {}, 'Joined ', el('b', { text: date(p.firstSeen) })),
           el('span', {}, 'Last played ', el('b', { text: dayName(p.lastSeen) }))));
@@ -418,11 +432,17 @@
     let who = null;
     try { who = await get('/api/me'); } catch { return null; }
     if (!slot || !who || !who.signedIn) return null;
-    const out = el('form', { method: 'post', action: '/auth/logout', class: 'signout' }, el('button', { type: 'submit', text: 'Sign out' }));
-    fill(slot,
-      el('a', { class: 'mine', href: `/player?id=${encodeURIComponent(who.steamId)}`, title: who.name },
-        who.avatar ? el('img', { class: 'av', src: who.avatar, alt: '', width: 20, height: 20, referrerpolicy: 'no-referrer' }) : null, 'My stats'),
-      out);
+    // Avatar + name; a click opens a small menu (My stats, Sign out). A click anywhere else closes it again.
+    const menu = el('details', { class: 'me-menu' },
+      el('summary', { title: who.name },
+        who.avatar ? el('img', { class: 'av', src: who.avatar, alt: '', width: 26, height: 26, referrerpolicy: 'no-referrer' })
+          : el('span', { class: 'av letter', 'aria-hidden': 'true', style: 'width:26px;height:26px', text: (who.name || '?').charAt(0).toUpperCase() }),
+        el('span', { class: 'who', text: who.name })),
+      el('div', { class: 'menu' },
+        el('a', { href: `/player?id=${encodeURIComponent(who.steamId)}`, text: 'My stats' }),
+        el('form', { method: 'post', action: '/auth/logout' }, el('button', { type: 'submit', text: 'Sign out' }))));
+    document.addEventListener('click', (event) => { if (!menu.contains(event.target)) menu.removeAttribute('open'); });
+    fill(slot, menu);
     return who;
   }
 
@@ -449,6 +469,84 @@
     serverStatus($('server-status'));
     setInterval(() => { if (!document.hidden) serverStatus($('server-status')); }, 60000);
   }
+  // ------------------------------------------------------------------------------------------ motion
+  // Owner, 2026-10-01: "modern feel like animation". Sections rise in when they scroll into view, numbers count up,
+  // bars fill, table rows appear one after the other. Nothing of it for people who ask for reduced motion.
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+
+  const seen = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); seen.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' })
+    : null;
+  function reveal(node) {
+    if (!seen || calm || node.classList.contains('reveal')) return;
+    node.classList.add('reveal');
+    seen.observe(node);
+  }
+  document.querySelectorAll('.wrap > section.sec, .guide-cards .box, .grid2 > .box, .cmd-grid > div, ul.rules-short li, .site-footer').forEach(reveal);
+
+  // "1169", "9,806", "1.47", "25%" count up from 0; anything else (words, records like "76 wins") is left alone.
+  let statusCounted = false;   // the live status box redraws every minute: count up only the first time
+  function countUp(node) {
+    if (calm || node.dataset.counted || node.children.length) return;
+    if (node.closest('#server-status')) { if (statusCounted) return; statusCounted = true; }
+    const m = /^([\d,]*\.?\d+)(%?)$/.exec(node.textContent.trim());
+    if (!m) return;
+    node.dataset.counted = '1';
+    const text = m[1], target = parseFloat(text.replace(/,/g, '')), decimals = (text.split('.')[1] || '').length, commas = text.includes(',');
+    if (!(target > 0)) return;
+    const start = performance.now(), ms = 900;
+    const show = (v) => { node.textContent = (commas ? Math.round(v).toLocaleString('en-US') : v.toFixed(decimals)) + m[2]; };
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / ms);
+      show(target * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(step); else show(target);
+    };
+    show(0);
+    requestAnimationFrame(step);
+    setTimeout(() => show(target), ms + 400);   // a background tab pauses animation frames: the real value always lands
+  }
+
+  // Bars (level progress, map win rates) fill from empty.
+  function fillBar(span) {
+    if (calm || span.dataset.filled) return;
+    span.dataset.filled = '1';
+    const width = span.style.width;
+    span.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => { span.style.width = width; }));
+  }
+
+  // Everything above also for what arrives later from the API (tiles, rows, lists).
+  function animate(root) {
+    root.querySelectorAll('.big-num, .tile .v, .spread-row b, ul.maps .rate b').forEach(countUp);
+    root.querySelectorAll('.bar span').forEach(fillBar);
+    root.querySelectorAll('.board tbody').forEach((body) => [...body.children].forEach((tr, i) => tr.style.setProperty('--i', String(Math.min(i, 30)))));
+    root.querySelectorAll('.guide-cards .box, .grid2 > .box, .podium').forEach(reveal);
+  }
+  if (!calm && 'MutationObserver' in window) {
+    new MutationObserver((changes) => changes.forEach((c) => c.addedNodes.forEach((n) => { if (n.nodeType === 1) animate(n.parentElement || n); })))
+      .observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Phones: the menu button (three lines) opens and closes the page links; a tap on a link or outside closes them.
+  const nav = document.querySelector('.site-nav');
+  const menuButton = document.querySelector('.menu-btn');
+  if (nav && menuButton) {
+    const setMenu = (open) => { nav.classList.toggle('open', open); menuButton.setAttribute('aria-expanded', String(open)); };
+    menuButton.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+    nav.querySelectorAll('.site-links a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('click', (event) => { if (!nav.contains(event.target)) setMenu(false); });
+  }
+
+  // Back to the top (bottom right), shown after scrolling down a bit.
+  const toTop = el('button', { type: 'button', class: 'to-top', 'aria-label': 'Back to the top', title: 'Back to the top' });
+  toTop.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M6 14l6-6 6 6"/></svg>';
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+  document.body.append(toTop);
+  const showToTop = () => toTop.classList.toggle('show', window.scrollY > 500);
+  window.addEventListener('scroll', showToTop, { passive: true });
+  showToTop();
+
   signInNotice();
   const signedIn = account().then((who) => { mine = who ? who.steamId : null; markMine(); return who; });
   if ($('top-rating')) miniBoard($('top-rating'), 'rating').then(markMine);

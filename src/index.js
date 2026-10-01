@@ -189,8 +189,13 @@ function cleanPlayer(p) {
   };
 }
 
+// Season ends the website leaves out: 2026-09-21 was a reset by hand while the server was being set up (owner,
+// 2026-10-01: "only the small one"), not a real season. The game server keeps them; the site never stores them.
+const IGNORED_SEASON_ENDS = new Set(['2026-09-21T12:37:02Z']);
+
 function cleanResult(r) {
   if (!r || !Number.isSafeInteger(r.id) || r.id <= 0 || !isSteamId(r.steamId)) return null;
+  if (IGNORED_SEASON_ENDS.has(r.archived)) return null;
   return {
     id: r.id, season: str(r.season, 16), steamId: r.steamId, name: str(r.name, 64) || '?',
     rating: int(r.rating), xp: int(r.xp), wins: int(r.wins), losses: int(r.losses), ties: int(r.ties),
@@ -265,9 +270,16 @@ async function leaderboard(env, url) {
     env.DB.prepare(`SELECT * FROM players WHERE ${where} ORDER BY ${order} LIMIT ?2 OFFSET ?3`).bind(placement, PER_PAGE, offset).all(),
     env.DB.prepare(`SELECT COUNT(*) AS n FROM players WHERE ${where}`).bind(placement).first('n'),
   ]);
+  // Who is closest to joining the rating list (owner, 2026-10-01: the empty list at a season start said only "nobody
+  // has finished"): the 5 with the most placement rounds played so far.
+  const placing = type === 'rating' && page === 1
+    ? (await env.DB.prepare('SELECT * FROM players WHERE ranked_rounds > 0 AND ranked_rounds < ?1 ORDER BY ranked_rounds DESC, rating DESC LIMIT 5')
+      .bind(placement).all()).results.map((row) => ({ ...publicPlayer(row), rankedRounds: row.ranked_rounds }))
+    : [];
   return {
     type, page, perPage: PER_PAGE, total, placementRounds: placement,
     rows: await withSteam(env, rows.results.map((row, i) => ({ position: offset + i + 1, ...publicPlayer(row) }))),
+    placing: await withSteam(env, placing),
   };
 }
 

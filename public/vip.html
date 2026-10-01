@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Drexun Arena VIP Guide</title>
+<title>VIP &middot; Drexun Arena</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
@@ -29,7 +29,7 @@
     --magenta: #e07ae8;
     --blue: #6aa8ff;
     --orange: #ff9f43;
-    --accent: #e07ae8;
+    --accent: #a6e34f;
     --display: "Rajdhani", "Arial Narrow", "Segoe UI", sans-serif;
     --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
@@ -120,12 +120,16 @@
     background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
   .site-nav .brand { font: 700 20px/1 var(--display); letter-spacing: .04em; color: var(--text-strong); text-decoration: none; }
   .site-nav .brand .tag { font-size: 13px; margin-right: 4px; }
-  .site-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  .site-links a { font: 600 14px/1 var(--body); color: var(--text); text-decoration: none; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
-  .site-links a:hover { border-color: var(--accent); color: var(--text-strong); }
-  .site-links a[aria-current="page"] { border-color: var(--accent); color: var(--text-strong); background: var(--surface-2); }
-  .site-links a.join { background: var(--lime); border-color: var(--lime); color: var(--bg); }
-  .site-links a.join:hover { filter: brightness(1.1); color: var(--bg); }
+  /* Plain text links with a lime underline for the current page; only Join is a button (owner, 2026-10-01: six boxes
+     of equal weight read like a toolbar). */
+  .nav-left { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 30px; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .site-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 22px; }
+  .site-links a { font: 600 15px/1 var(--body); color: var(--text); text-decoration: none; padding: 9px 0 7px; border-bottom: 2px solid transparent; }
+  .site-links a:hover { color: var(--text-strong); }
+  .site-links a[aria-current="page"] { color: var(--text-strong); border-bottom-color: var(--lime); }
+  .site-nav a.join { font: 700 15px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; color: var(--bg); background: var(--lime); padding: 10px 18px; border-radius: 4px; }
+  .site-nav a.join:hover { filter: brightness(1.1); }
   details.faq { border: 1px solid var(--line); border-radius: 6px; background: var(--surface); margin: 0 0 8px; }
   details.faq summary { cursor: pointer; padding: 11px 14px; font-weight: 600; color: var(--text-strong); }
   details.faq > div { padding: 0 14px 12px; }
@@ -133,296 +137,93 @@
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
-<meta name="description" content="What VIP gives on Drexun Arena (every skin, stickers, charms, agents) and how to get it.">
+<meta name="description" content="Drexun Arena VIP: every skin, stickers, charms, agents and a reserved slot. Win it, try it free, or get it from the owner.">
 <meta property="og:site_name" content="Drexun Arena">
-<meta property="og:description" content="What VIP gives on Drexun Arena (every skin, stickers, charms, agents) and how to get it.">
+<meta property="og:description" content="Drexun Arena VIP: every skin, stickers, charms, agents and a reserved slot. Win it, try it free, or get it from the owner.">
 <meta name="theme-color" content="#a6e34f">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%2312151a%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-family=%22Arial%22 font-weight=%22700%22 font-size=%2215%22 text-anchor=%22middle%22 fill=%22%23a6e34f%22%3EDX%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="/site.css?v=03f90bc6b4">
+<link rel="stylesheet" href="/site.css?v=56b05d8a8b">
 </head>
 <body>
 <nav class="site-nav" aria-label="Site">
-  <a class="brand" href="/"><span class="tag">[DX]</span> DREXUN ARENA</a>
-  <div class="site-links">
-    <a href="/leaderboard">Leaderboard</a>
-    <a href="/halloffame">Hall of fame</a>
-    <a href="/players">Player Guide</a>
-    <a href="/vip" aria-current="page">VIP Guide</a>
-    <span id="account" class="account"><a href="/auth/steam" rel="nofollow">Sign in with Steam</a></span>
-    <a class="join" href="steam://connect/drexun.ggwp.cc:25401">Join</a>
+  <div class="nav-left">
+    <button type="button" class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="site-links"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <a class="brand" href="/"><span class="tag">[DX]</span> DREXUN ARENA</a>
+    <div class="site-links" id="site-links">
+      <a href="/leaderboard">Leaderboard</a>
+      <a href="/halloffame">Hall of fame</a>
+      <a href="/players">Guide</a>
+      <a href="/vip" aria-current="page">VIP</a>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span id="account" class="account"><a class="signin" href="/auth/steam" rel="nofollow">Sign in<span class="long"> with Steam</span></a></span>
+    <a class="join" href="steam://connect/drexun.ggwp.cc:25401" title="Opens CS2 and joins drexun.ggwp.cc:25401">Join<span class="long"> server</span></a>
   </div>
 </nav>
-<div class="wrap">
+<div class="wrap guide-page">
   <header class="top">
-    <div class="tag">[DX] DREXUN ARENA · 1V1 ARENAS</div>
-    <h1><span class="who">VIP</span> Guide</h1>
-    <p class="lede">What your VIP gives you and how to use it, followed by everything about how the server works for every player.</p>
-    <div class="meta"><span>Server <b>drexun.ggwp.cc:25401</b></span><span>Discord <b>discord.gg/bpqDENm6jC</b></span><span>Updated <b>1 Oct 2026</b></span></div>
+    <div class="tag">[DX] DREXUN ARENA · VIP</div>
+    <h1><span class="who" style="color:var(--magenta)">VIP</span></h1>
+    <p class="lede">Make your guns look the way you want. VIP is cosmetic only: it never gives an advantage in a duel.</p>
   </header>
 
-  <nav class="toc" aria-label="Contents">
-    <h2>In this guide</h2>
-    <div class="toc-part"><span style="color:var(--magenta)">VIP</span><ul>
-      <li><a href="#vip">What VIP gives you</a></li>
-      <li><a href="#vipkinds">The five kinds of VIP</a></li>
-      <li><a href="#vipcommands">VIP commands</a></li>
-    </ul></div>
-    <div class="toc-part"><span style="color:var(--lime)">Player</span><ul>
-      <li><a href="#join">Joining the server</a></li>
-      <li><a href="#match">How a match works</a></li>
-      <li><a href="#rating">Rating: the monthly ladder</a></li>
-      <li><a href="#xp">XP, levels and titles</a></li>
-      <li><a href="#skins">Skins, knives, gloves and music</a></li>
-      <li><a href="#mapvote">Map vote</a></li>
-      <li><a href="#season">Seasons and rewards</a></li>
-      <li><a href="#commands">Player commands</a></li>
-      <li><a href="#chat">Chat</a></li>
-      <li><a href="#report">Reporting a cheater</a></li>
-      <li><a href="#rules">Rules</a></li>
-      <li><a href="#discord">Discord</a></li>
-      <li><a href="#faq">Questions</a></li>
-    </ul></div>
-  </nav>
+  <section class="sec" id="perks"><h2>What you get</h2>
+    <div class="guide-cards">
+      <div class="box"><h4>Every skin</h4><p>All weapon skins, knives, gloves and music kits, whatever your level.</p></div>
+      <div class="box"><h4>Stickers, charms, agents</h4><p>Decorate your guns and pick your player model.</p></div>
+      <div class="box"><h4>Fine-tune your gun</h4><p>Pattern, wear, a name tag and StatTrak.</p></div>
+      <div class="box"><h4>A reserved slot</h4><p>The last 2 slots are kept for VIPs, so you get in when the server is full.</p></div>
+    </div>
+  </section>
 
-  <div class="part" style="--part:var(--magenta)"><div class="part-name">VIP part</div><p>What VIP adds.</p></div>
-<section class="sec" id="vip"><h2>What VIP gives you</h2>
-<p class="for">VIP is cosmetic. It never gives a gameplay or rating advantage: your duels, rating and XP work exactly like everyone else's.</p>
-<div class="grid2">
-  <div class="box can"><h4>Every skin, no level locks</h4><p>All weapon skins, knife finishes, glove finishes and music kits, whatever your level. Your <code>!skins</code> menu says "VIP" instead of your level.</p></div>
-  <div class="box can"><h4>Stickers, charms and agents</h4><p><code>!stickers</code>, <code>!charms</code> and <code>!agents</code> open for you.</p></div>
-  <div class="box can"><h4>Fine-tuning</h4><p>Pattern, wear, name tag and StatTrak on the gun you hold.</p></div>
-  <div class="box can"><h4>A reserved slot</h4><p>When the server is nearly full, the last 2 of its 20 slots are kept for VIPs and staff.</p></div>
-</div>
-<p>VIP given by the owner, and the permanent VIP of a season #1, also shows a pink <span style="color:var(--magenta)">[VIP]</span> tag in chat. Top 5 VIPs show their blue <span style="color:var(--blue)">[Rank N]</span> tag instead.</p>
-</section>
-<section class="sec" id="vipkinds"><h2>The five kinds of VIP</h2>
-<div class="tbl"><table>
-  <thead><tr><th>Kind</th><th>How you get it</th><th>How long</th></tr></thead>
-  <tbody>
-    <tr><td><strong style="color:var(--blue)">Season #1</strong></td><td>Finish the month #1 by rating, in a month with at least 20 ranked players. A repeat win is counted.</td><td>Forever</td></tr>
-    <tr><td><strong style="color:var(--blue)">Top 5</strong></td><td>Finish the month in the top 5 by rating. Your tag is [Rank 1] to [Rank 5].</td><td>The whole next month</td></tr>
-    <tr><td><strong style="color:var(--magenta)">Timed</strong></td><td>Given by the owner. You get a message with who gave it and until when. If the owner gives more, the days are added.</td><td>1 to 365 days, then it ends by itself</td></tr>
-    <tr><td><strong>Trial</strong></td><td><code>!viptest</code>, once per player, ever.</td><td>30 minutes (a reminder 5 minutes before the end)</td></tr>
-    <tr><td><strong style="color:var(--magenta)">Permanent</strong></td><td>Given by the owner.</td><td>Until the owner removes it</td></tr>
-  </tbody>
-</table></div>
-<div class="chat">
-  <div><span class="dx">[DX]</span> <span class="go">LEO3IM</span> gave you VIP for <span class="pu">30</span> days · until <span class="pu">26</span> Oct <span class="pu">2026</span></div>
-  <div><span class="dx">[DX]</span> You have VIP until <span class="pu">26</span> Oct <span class="pu">2026</span> (<span class="pu">30</span> days left)</div>
-</div>
-<ul>
-  <li><code>!vip</code> shows which kind you have and when it ends. The welcome card in the middle of the screen shows it every time you join, and warns you in the last 3 days of a timed VIP.</li>
-  <li>When VIP ends, the VIP skins and extras switch off from your next round. <strong>Your picks stay saved</strong> and come back when you have VIP again.</li>
-</ul>
-</section>
-<section class="sec" id="vipcommands"><h2>VIP commands</h2>
-<p class="note">"The gun you hold" means the weapon in your hands when you type the command. Use <code>!skins</code> first to pick its skin.</p>
-<div class="tbl"><table>
-  <thead><tr><th>Command</th><th>What it does</th></tr></thead>
-  <tbody>
-    <tr><td><code>!agents</code><span class="alias">!agent</span></td><td>Pick your agent (player model) for each team.</td></tr>
-    <tr><td><code>!stickers</code><span class="alias">!sticker</span></td><td>Stickers on the gun you hold.</td></tr>
-    <tr><td><code>!charms</code><span class="alias">!keychains</span></td><td>A charm on the gun you hold.</td></tr>
-    <tr><td><code>!seed &lt;0-1000&gt;</code></td><td>The pattern of the gun you hold (handy for Case Hardened, Fade and similar). <code>!seed gloves &lt;n&gt;</code> for gloves, <code>!seed reset</code> to undo.</td></tr>
-    <tr><td><code>!wear &lt;0.00-1.00&gt;</code></td><td>How worn it looks: 0.00 is factory new, 1.00 battle-scarred. Same <code>gloves</code> and <code>reset</code> options.</td></tr>
-    <tr><td><code>!nametag &lt;text&gt;</code></td><td>A name tag on the gun you hold, up to 20 characters. <code>!nametag reset</code> removes it.</td></tr>
-    <tr><td><code>!stattrak</code></td><td>StatTrak on the gun you hold. <code>!stattrak &lt;number&gt;</code> sets the counter, <code>!stattrak reset</code> removes it.</td></tr>
-  </tbody>
-</table></div>
-</section>
-  <div class="part" style="--part:var(--lime)"><div class="part-name">Player part</div><p>Everything every player can do - it all applies to you too.</p></div>
-<section class="sec" id="join"><h2>Joining the server</h2>
-<p class="for">Drexun Arena is a 1v1 arena server for Counter-Strike 2: short duels, a ladder of arenas, a monthly rating and levels that stay forever.</p>
-<ol class="steps">
-  <li><span>Open CS2, press <strong>~</strong> to open the console and paste <code>connect drexun.ggwp.cc:25401</code>. You can also find us in the community server browser by searching <code>1v1</code> or <code>arena</code>.</span></li>
-  <li><span>The server has <strong>20 slots</strong>. When it is nearly full, the <strong>last 2 slots are kept for VIPs and staff</strong>, so a regular player may be told the server is full.</span></li>
-  <li><span>Every time you join, a welcome card shows in the middle of the screen for a few seconds (after the warmup): on your first visit what the server is about, after that "welcome back" with your level, rating, rank on the ladder, the days left in the season, the main commands and, if you have VIP, which VIP and when it ends. In chat you get a welcome line, your place in the queue and the main commands.</span></li>
-</ol>
-<div class="chat">
-  <div><span class="dx">[DX]</span> <span class="pu">Welcome to</span> <span class="go">Drexun Arena</span> · win <span class="pu">1v1</span> duels and climb to Arena <span class="pu">1</span> · <span class="pu">!rules</span></div>
-  <div><span class="dx">[DX]</span> Joined the queue · Position <span class="pu">1</span></div>
-  <div><span class="dx">[DX]</span> <span class="pu">!guns</span> weapons · <span class="pu">!skins</span> skins · <span class="pu">!report</span> a cheater · <span class="pu">!help</span> all commands</div>
-</div>
-<p>You don't need to pick a team. After a map change the game shows the team menu: pick any team, or <strong>Spectate</strong> if you only want to watch (you then count as away, and picking a team later brings you back).</p>
-</section>
-<section class="sec" id="match"><h2>How a match works</h2>
-<ol class="steps">
-  <li><span><strong>Warmup (90 seconds)</strong> when a map starts. Practice duels, nothing counts. Players who are alone get paired up. The warmup clock only starts once someone has joined a team.</span></li>
-  <li><span><strong>Arenas.</strong> After the warmup everyone is put into a 1v1 arena. <strong>Win and you move up an arena, lose and you move down.</strong> Arena 1 is the top. When there are more players than arenas, the extra players wait in a queue (<code>!queue</code> shows your place).</span></li>
-  <li><span><strong>Rounds last 30 seconds.</strong> A round ends when one of you dies. If time runs out first, that round counts for nothing.</span></li>
-  <li><span><strong>Each round has a weapon type</strong> (rifle, AWP, pistol and more). Pick your weapons and the round types you want to play with <code>!guns</code>.</span></li>
-  <li><span><strong>A map lasts 20 minutes.</strong> From 2:00 left everyone votes for the next map (see <a href="#mapvote">Map vote</a>).</span></li>
-</ol>
-<h3>When a duel starts</h3>
-<p>You see your arena, the round type and your opponent in the middle of the screen and in chat. The number after the name is your <strong>opponent's rating</strong>. <strong>(new)</strong> means they are still in their first 10 ranked rounds of the month, so their rating doesn't mean much yet. Bots have no number. Very long names are shortened on the card so the rating always fits.</p>
-<p><strong>You only hear your own duel.</strong> While you are alive in your arena, gunshots (and their tracers) from the other arenas are muted, so you can listen for your opponent. Once you are dead or spectating you hear everything again.</p>
-<div class="card">Arena<b>1</b>Round Type<b>Standard Rifle</b>VorTex (1086)</div>
-<div class="chat"><div><span class="dx">[DX]</span> Arena <span class="pu">1</span> · vs <span class="go">VorTex</span> (<span class="pu">1086</span>) · Round: <span class="pu">Standard Rifle</span></div></div>
-<h3>Leaving, AFK and spectating</h3>
-<ul>
-  <li><strong>Leaving in the middle of a duel counts as a loss</strong>, and you get no XP for it. Being kicked, banned or a map change never counts.</li>
-  <li><strong>30 seconds without moving</strong> puts you in spectators. Type <code>!afk</code> to play again.</li>
-  <li><code>!afk</code> also works the other way: type it to take a break, and again to come back.</li>
-</ul>
-</section>
-<section class="sec" id="rating"><h2>Rating: the monthly ladder</h2>
-<p class="for">Your rating says how good you are this month. It is what the leaderboard and the monthly top 5 are based on.</p>
-<div class="grid2">
-  <div class="box"><h4>What counts</h4><p>Only <strong>ranked rounds</strong>: a real 1v1 against another player in the arenas. Warmup, bots and private <code>!duel</code> challenges never change your rating.</p></div>
-  <div class="box"><h4>How much you win or lose</h4><p>Beating a stronger player gives more than beating a weaker one. A win always gives at least <strong>+3</strong>. A loss costs at most <strong>−16</strong>.</p></div>
-</div>
-<ul>
-  <li><strong>Everyone starts every month at 1000.</strong> The lowest possible rating is 100.</li>
-  <li><strong>Your first 10 ranked rounds of the month move your rating 1.5× as much</strong>, so you reach your real level faster (a loss can then cost up to −24). These are your placement rounds: until they are done, other players see you as <strong>(new)</strong>, and you are not on the leaderboard yet.</li>
-  <li><strong>Playing the same opponent again and again counts less and less</strong>: 100%, 75%, 50%, then 25% of the normal rating per round. A 15-minute break or a round against someone else resets it. This stops two friends (or two accounts) from farming rating off each other. XP is never reduced.</li>
-  <li>A round where time runs out counts for nothing: no rating, no XP, and it does not count toward your 10 placement rounds.</li>
-</ul>
-<p>After every ranked round you see what changed. Green is a gain, red a loss. The gold number is your opponent's rating right now:</p>
-<div class="chat"><div><span class="dx">[DX]</span> <span class="gr">+8 rating (1103)</span> vs <span class="go">VorTex</span> <span class="go">(897)</span> · <span class="pu">+25 XP</span> (375/480)</div></div>
-<p>Check yours any time with <code>!rank</code> or <code>!profile</code>, and the best players with <code>!top</code>. <code>!top</code> also tells you your own place and how many points you are behind the player above you.</p>
-</section>
-<section class="sec" id="xp"><h2>XP, levels and titles</h2>
-<p class="for">Levels are for time and effort, and they <strong>never reset</strong>. They unlock titles and better skins.</p>
-<ul>
-  <li>Every ranked round gives XP: <strong>+25 for a win, +10 for a loss</strong>.</li>
-  <li>Your title shows in front of your name in chat, in its color. Each new title <strong>unlocks the next group of skins</strong>.</li>
-  <li>Reaching a new title is announced to everyone.</li>
-</ul>
-<div class="ladder" aria-label="Titles, the level they need and the total XP">
-  <div><b style="color:#9aa4b1">Initiate</b><span>level 1</span><span>0 XP</span></div>
-  <div><b style="color:#5fd47a">Challenger</b><span>level 5</span><span>320 XP</span></div>
-  <div><b style="color:#6aa8ff">Duelist</b><span>level 10</span><span>1,440 XP</span></div>
-  <div><b style="color:#c592f0">Gladiator</b><span>level 20</span><span>6,080 XP</span></div>
-  <div><b style="color:#f3d98a">Champion</b><span>level 35</span><span>19,040 XP</span></div>
-  <div><b style="color:#e6b544">Legend</b><span>level 50</span><span>39,200 XP</span></div>
-  <div><b style="color:#ff6b6b">Mythic</b><span>level 75</span><span>88,800 XP</span></div>
-</div>
-<p class="note">Roughly: Duelist takes about 35 minutes of steady play, Legend about 15 hours, Mythic about 34 hours. <code>!titles</code> lists them in game, <code>!rank</code> shows how far you are from the next one.</p>
-</section>
-<section class="sec" id="skins"><h2>Skins, knives, gloves and music</h2>
-<p class="for">Everyone gets free skins. Better ones unlock as your level goes up.</p>
-<ul>
-  <li><code>!skins</code> opens the menu: weapon skins, knife, gloves and music kit. Every list goes from the cheapest skin to the most expensive.</li>
-  <li><strong>Every weapon, knife and glove type is free from level 1.</strong> What unlocks with your level is the individual skin or finish: each weapon's skins are split into 7 groups, from the cheapest (level 1) to the most expensive (level 75, Mythic). Locked skins are grey in the menu and say which level they need.</li>
-  <li><strong>Music kits</strong> unlock by level too. Your kit plays when you are the MVP of a round.</li>
-  <li>Shortcuts: <code>!knife</code>, <code>!gloves</code>, <code>!music</code> jump straight to that part of the menu.</li>
-  <li>Something didn't show? <code>!wsrefresh</code> puts your skins back on. <code>!wsreset</code> clears your picks (<code>!wsreset knife</code> only the knife, and so on).</li>
-  <li>Menu keys: <strong>W/S</strong> move, <strong>E</strong> select, <strong>Shift</strong> or <strong>A</strong> back, <strong>Tab</strong> or <strong>R</strong> close.</li>
-</ul>
-<div class="box warn"><h4>Known issue: some knife finishes</h4><p>After switching to another knife type, a few finishes (mostly the Doppler and Gamma Doppler family) can show as a plain knife, even though the menu says they are on. This is a CS2 problem, not your settings. Rejoining the server fixes it for the knife you are holding. We watch for a fix.</p></div>
-<p class="note">VIPs skip every level lock and also get stickers, charms, agents and pattern/wear/name tag/StatTrak. See the VIP part.</p>
-</section>
-<section class="sec" id="mapvote"><h2>Map vote</h2>
-<p>Every map lasts 20 minutes. <strong>With 2:00 left</strong> a vote opens: three maps plus "extend". Type the <strong>number</strong> in chat. You have until <strong>0:10</strong> left, with a reminder every 30 seconds; then the chat names the map that won.</p>
-<div class="chat">
-  <div><span class="dx">[DX]</span> Map vote · type the number in chat · <span class="pu">1:50</span> to vote</div>
-  <div><span class="dx">[DX]</span> <span class="pu">1</span> · <span class="go">am_mirage</span></div>
-  <div><span class="dx">[DX]</span> <span class="pu">2</span> · <span class="go">am_dust2_ob</span></div>
-  <div><span class="dx">[DX]</span> <span class="pu">3</span> · <span class="go">am_italy_p</span></div>
-  <div><span class="dx">[DX]</span> <span class="pu">4</span> · Extend this map 10 min</div>
-  <div><span class="dx">[DX]</span> Map vote · <span class="pu">1:20</span> left to vote · type <span class="pu">1</span>-<span class="pu">4</span> in chat · <span class="pu">3</span> votes so far</div>
-</div>
-<ul>
-  <li>You can change your vote until it closes. Most votes wins, a tie is picked at random, and if nobody votes the normal rotation decides.</li>
-  <li>"Extend" adds 10 minutes and can win once per map.</li>
-  <li>While the vote is open a number you type is a vote and doesn't show in chat. The rest of the time numbers are normal chat.</li>
-  <li><code>!nextmap</code> shows the current map, the exact time left and the next map.</li>
-</ul>
-</section>
-<section class="sec" id="season"><h2>Seasons and rewards</h2>
-<ul>
-  <li><strong>A season is one calendar month.</strong> It ends on the 1st at 00:00 UTC. In the last 3 days you get a reminder.</li>
-  <li>At the end, <strong>everyone's rating and win/loss record start over</strong>. XP, levels and titles stay.</li>
-  <li><strong>The #1 by rating wins permanent VIP</strong>, in a month where at least 20 players finished their placement. With fewer, #1 gets the same as #2 to #5.</li>
-  <li><strong>The top 5 by rating win VIP for the whole next month</strong> and a blue <span style="color:var(--blue)">[Rank 1]</span> to <span style="color:var(--blue)">[Rank 5]</span> tag. You need at least 10 ranked rounds that month to be on the leaderboard.</li>
-  <li>The final top 5 go into the <strong>hall of fame</strong> (<code>!hof</code> in game, and #hall-of-fame on Discord).</li>
-  <li><code>!season</code> shows when the month ends and last month's top 5.</li>
-</ul>
-</section>
-<section class="sec" id="commands"><h2>Player commands</h2>
-<p class="note">Type them in chat. Other players never see the command you typed, only you see the answer. Grey words under a command are other names for it.</p>
-<div class="tbl"><table>
-  <thead><tr><th>Command</th><th>What it does</th></tr></thead>
-  <tbody>
-    <tr><td><code>!guns</code><span class="alias">!loadout !weapon</span></td><td>Your weapons for each round type, and which round types you want to play.</td></tr>
-    <tr><td><code>!skins</code><span class="alias">!skin !ws</span></td><td>The skins menu: weapons, knife, gloves, music kit.</td></tr>
-    <tr><td><code>!knife</code> · <code>!gloves</code> · <code>!music</code></td><td>Straight to knives, gloves or music kits.</td></tr>
-    <tr><td><code>!wsrefresh</code> · <code>!wsreset</code></td><td>Put your skins back on / clear your skin picks.</td></tr>
-    <tr><td><code>!rank</code><span class="alias">!rating !elo !level !xp</span></td><td>Your rating, level, title, XP and the next title.</td></tr>
-    <tr><td><code>!profile</code><span class="alias">!me !stats</span></td><td>Your full card: rating, level, ranked record this season, K/D and headshots (ranked rounds only: no bots, no warmup, no <code>!duel</code>).</td></tr>
-    <tr><td><code>!top</code><span class="alias">!leaderboard !lb</span></td><td>Top 5 by rating this month, and your own place.</td></tr>
-    <tr><td><code>!toplevel</code></td><td>Top 5 by level.</td></tr>
-    <tr><td><code>!titles</code></td><td>All titles and the level each one needs.</td></tr>
-    <tr><td><code>!season</code> · <code>!hof</code></td><td>When the month ends · the hall of fame.</td></tr>
-    <tr><td><code>!duel &lt;name&gt;</code><span class="alias">!challenge</span></td><td>A private duel (doesn't count for rating). They answer with <code>!caccept</code> or <code>!cdecline</code>.</td></tr>
-    <tr><td><code>!queue</code></td><td>Your place in the waiting queue.</td></tr>
-    <tr><td><code>!afk</code><span class="alias">!away !spectate</span></td><td>Go to spectators, or come back.</td></tr>
-    <tr><td><code>!nextmap</code><span class="alias">!timeleft</span></td><td>Current map, time left, next map.</td></tr>
-    <tr><td><code>1</code> <code>2</code> <code>3</code> <code>4</code></td><td>Your map vote, only while the vote is open.</td></tr>
-    <tr><td><code>!report &lt;what happened&gt;</code><span class="alias">!calladmin</span></td><td>Report your opponent to the staff (see <a href="#report">Reporting</a>).</td></tr>
-    <tr><td><code>!vip</code> · <code>!viptest</code></td><td>What VIP gives · try VIP free for 30 minutes, once.</td></tr>
-    <tr><td><code>!rules</code> · <code>!discord</code></td><td>The server rules · the Discord invite.</td></tr>
-    <tr><td><code>!website</code><span class="alias">!site !web</span></td><td>The website <strong>drexun.com</strong>: your rating graph, K/D, hit spread, top weapons, maps and modes, the leaderboards and the hall of fame.</td></tr>
-    <tr><td><code>!help</code><span class="alias">!commands</span></td><td>A short list of commands in game.</td></tr>
-  </tbody>
-</table></div>
-</section>
-<section class="sec" id="chat"><h2>Chat</h2>
-<ul>
-  <li>Your <strong>title</strong> shows in front of your name. Staff and VIPs have their own tags: <span style="color:#ff8a8a">[Owner]</span>, <span style="color:var(--red)">[Admin]</span>, <span style="color:var(--green)">[Mod]</span>, <span style="color:var(--magenta)">[VIP]</span>, and last month's top 5 have <span style="color:var(--blue)">[Rank N]</span>.</li>
-  <li><strong>Swearing is allowed.</strong> This is not a kids' server. If you see <code>****</code> instead of words, that is your own Steam chat filter: in CS2 go to <strong>Settings › Game › Communication › Text Filtering › Account Preferences</strong> and choose "Do not filter strong profanity or slurs".</li>
-  <li><strong>Automatic chat filter</strong> when no staff member is online: links, adverts for other servers and hard slurs are not sent. The first time you get a warning. A second time within 30 minutes gives an automatic <strong>10-minute gag</strong> (no text chat; commands still work).</li>
-  <li><strong>Chat is logged</strong> and visible to the staff, to deal with abuse.</li>
-  <li>There is <strong>no voice chat</strong> on this server. Text only.</li>
-</ul>
-</section>
-<section class="sec" id="report"><h2>Reporting a cheater</h2>
-<ul>
-  <li><code>!report aimbot</code> (anything after <code>!report</code> is your reason) reports your current or last opponent.</li>
-  <li><code>!report</code> alone shows a numbered list of everyone online. Then <code>!report #2 wallhack</code> reports number 2.</li>
-  <li>It works even if a cheater changes their name: the staff get their Steam account, not just the name.</li>
-  <li>Limits: one report a minute, five an hour, and the same player once every 10 minutes. Fake reports are punished.</li>
-  <li>The staff also get an automatic alert when two players keep playing each other with one side always winning (win trading).</li>
-</ul>
-</section>
-<section class="sec" id="rules"><h2>Rules</h2>
-<ol>
-  <li>Play fair: no cheats, no map exploits, no win trading.</li>
-  <li>Leaving in the middle of a duel counts as a loss.</li>
-  <li>Stay active: 30 seconds AFK moves you to spectators (<code>!afk</code> to return).</li>
-  <li>Be respectful: no insults, hate, spam or advertising.</li>
-  <li>Rating resets every month; XP and titles stay.</li>
-  <li>Finish the month #1 in rating: permanent VIP. Top 5: VIP for a month.</li>
-  <li>Chat is logged and visible to the staff to moderate abuse.</li>
-  <li>Staff decisions are final. Report a cheater: <code>!report &lt;what happened&gt;</code>.</li>
-</ol>
-</section>
-<section class="sec" id="discord"><h2>Discord</h2>
-<p>Join at <strong>discord.gg/bpqDENm6jC</strong> (or type <code>!discord</code> in game).</p>
-<div class="tbl"><table>
-  <thead><tr><th>Channel</th><th>What's there</th></tr></thead>
-  <tbody>
-    <tr><td>#server-status</td><td>Live: who is online, the map, minutes until the next map and the connect line. Updated every minute.</td></tr>
-    <tr><td>#leaderboard</td><td>This month's top 10 by rating, and the top 10 by level of all time, updated every few minutes.</td></tr>
-    <tr><td>#hall-of-fame</td><td>The final top 5 of every month.</td></tr>
-    <tr><td>#rules · #announcements</td><td>The rules and server news.</td></tr>
-    <tr><td>#general · #bugs-and-suggestions</td><td>Talk, report a bug, suggest something.</td></tr>
-  </tbody>
-</table></div>
-</section>
-<section class="sec" id="faq"><h2>Questions</h2>
-<details class="faq"><summary>My skin doesn't show.</summary><div>Type <code>!wsrefresh</code>. If it is a locked skin (grey in the menu), you need a higher level. For a plain knife after switching knife type, see the known issue under Skins: rejoin the server.</div></details>
-<details class="faq"><summary>Why did I get only a few points for a win?</summary><div>Either your opponent had a much lower rating, or you played the same person several times in a row (the rating counts less each time until a 15-minute break or a new opponent).</div></details>
-<details class="faq"><summary>What does "(new)" next to a name mean?</summary><div>That player hasn't finished their first 10 ranked rounds this month, so their rating isn't settled yet.</div></details>
-<details class="faq"><summary>Why am I in spectators?</summary><div>You didn't move for 30 seconds, or you picked Spectate. Type <code>!afk</code> to play again.</div></details>
-<details class="faq"><summary>I typed a number and it didn't show in chat.</summary><div>The map vote was open: your number counted as a vote.</div></details>
-<details class="faq"><summary>My message didn't send and I got a warning.</summary><div>The automatic chat filter blocked a link, an advert or a slur. Do it again within 30 minutes and you are gagged for 10 minutes.</div></details>
-<details class="faq"><summary>Is my level gone when the month ends?</summary><div>No. Only rating and your win/loss record reset. XP, levels, titles and unlocked skins stay.</div></details>
-</section>
+  <section class="sec" id="get"><h2>How to get it</h2>
+    <div class="guide-cards three">
+      <div class="box highlight"><h4>Win it</h4><p>Finish the month <strong>#1</strong>: VIP <strong>forever</strong>. Places <strong>2 to 5</strong>: VIP for the whole next month.</p></div>
+      <div class="box"><h4>Try it</h4><p>Type <code>!viptest</code> in game for <strong>30 minutes</strong> of VIP. Once per player.</p></div>
+      <div class="box"><h4>From the owner</h4><p>The owner can give VIP for a number of days.</p></div>
+    </div>
+    <p class="note"><code>!vip</code> in game shows whether you have VIP and when it ends. When it ends, your picks stay saved for next time.</p>
+  </section>
 
-  <footer>Drexun Arena VIP Guide, for VIPs.</footer>
+  <section class="sec" id="commands"><h2>VIP commands</h2>
+    <p class="note">Hold the gun first, then type the command. Pick its skin with <code>!skins</code>.</p>
+    <div class="cmd-grid">
+      <div><code>!stickers</code><span>stickers on your gun</span></div>
+      <div><code>!charms</code><span>a charm on your gun</span></div>
+      <div><code>!agents</code><span>your player model</span></div>
+      <div><code>!seed 0-1000</code><span>the pattern</span></div>
+      <div><code>!wear 0.00-1.00</code><span>how worn it looks</span></div>
+      <div><code>!nametag text</code><span>a name on your gun</span></div>
+      <div><code>!stattrak</code><span>a kill counter</span></div>
+    </div>
+  </section>
+
+  <p class="more">New here? <a href="/players">How the server works →</a></p>
+
+  <footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="brand" href="/"><span class="tag">[DX]</span> DREXUN ARENA</a>
+      <p>Counter-Strike 2 1v1 arenas<br><code class="nowrap">connect drexun.ggwp.cc:25401</code></p>
+      <a class="discord-btn" href="https://discord.gg/bpqDENm6jC" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52.07.07 0 0 0-.08.04c-.21.38-.44.87-.6 1.25a18.3 18.3 0 0 0-5.5 0 12.6 12.6 0 0 0-.61-1.25.08.08 0 0 0-.08-.04 19.7 19.7 0 0 0-4.89 1.52.07.07 0 0 0-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 0 0 .03.06 19.9 19.9 0 0 0 5.99 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.3 1.23-1.99a.08.08 0 0 0-.04-.11 13.1 13.1 0 0 1-1.87-.89.08.08 0 0 1-.01-.13l.37-.29a.07.07 0 0 1 .08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 0 1 .08.01l.37.29a.08.08 0 0 1-.01.13c-.6.35-1.22.65-1.87.89a.08.08 0 0 0-.04.11c.36.7.78 1.36 1.22 1.99a.08.08 0 0 0 .08.03 19.8 19.8 0 0 0 6-3.03.08.08 0 0 0 .03-.06c.5-5.18-.84-9.67-3.55-13.66a.06.06 0 0 0-.03-.03ZM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42Zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42 0-1.33.95-2.42 2.15-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.95 2.42-2.16 2.42Z"/></svg>
+        Join our Discord
+      </a>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <div><h5>Play</h5><a href="/">Server status</a><a href="/leaderboard">Leaderboard</a><a href="/halloffame">Hall of fame</a></div>
+      <div><h5>Guides</h5><a href="/players">How it works</a><a href="/vip">VIP</a></div>
+      <div><h5>About</h5><a href="https://discord.gg/bpqDENm6jC" rel="noopener">Discord</a><a href="/privacy">Privacy</a></div>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Drexun Arena. All rights reserved.</span>
+    <span>Not affiliated with or endorsed by Valve Corporation. Counter-Strike and CS2 are trademarks of Valve Corporation.</span>
+  </div>
+</footer>
 </div>
 
-<script src="/site.js?v=b4c66eb152" defer></script>
+<script src="/site.js?v=3ef2ddb3db" defer></script>
 </body>
 </html>
