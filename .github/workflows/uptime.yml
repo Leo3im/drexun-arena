@@ -1,6 +1,6 @@
 # Drexun Arena uptime alert. Source: tools\uptime\ in the project; tools\Build-Books.ps1 copies it into the website
-# repository, where GitHub runs it. Posts to Discord (secret UPTIME_WEBHOOK, set by the owner in the repository
-# settings) when the game server stops answering, and when it is back.
+# repository, where GitHub runs it. Posts to Discord #server-alerts (secret UPTIME_WEBHOOK, set by the owner in the
+# repository settings) when the game server stops answering, and when it is back.
 name: Server uptime alert
 
 on:
@@ -26,12 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: .github/uptime
 
       # The previous result (up/down, how many checks failed), so an alert is sent once, not every 5 minutes.
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v6
         with:
           path: .uptime-state.json
           key: uptime-state-${{ github.run_id }}
@@ -45,7 +45,7 @@ jobs:
           SERVER: drexun.ggwp.cc:25401
           TEST_MESSAGE: ${{ inputs.test }}
 
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@v6
         if: always()
         with:
           path: .uptime-state.json
