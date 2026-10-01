@@ -563,13 +563,14 @@ function json(data, status, maxAgeSeconds) {
   return new Response(JSON.stringify(data), { status, headers });
 }
 
-// The pages only load their own files plus Google Fonts; nothing may frame them.
+// The pages only load their own files, Google Fonts and Cloudflare's anonymous visitor count (Web Analytics: no cookies,
+// owner's OK 2026-10-01); nothing may frame them.
 function withSecurityHeaders(response) {
   const headers = new Headers(response.headers);
   headers.set('X-Content-Type-Options', 'nosniff');
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "font-src https://fonts.gstatic.com; img-src 'self' data: https://*.steamstatic.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
+  headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src https://fonts.gstatic.com; img-src 'self' data: https://*.steamstatic.com; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
